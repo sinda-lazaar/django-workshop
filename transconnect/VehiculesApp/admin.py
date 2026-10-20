@@ -1,12 +1,74 @@
+
 from django.contrib import admin
 from .models import Vehicule
-from django.contrib.auth.admin import UserAdmin
-# Register your models here
+
+
 @admin.register(Vehicule)
 class VehiculeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'type_vehicule', 'capacite', 'statut', 'transporteur')
-    list_filter = ('type_vehicule', 'statut')
-    search_fields = ('id', 'transporteur__nom')
-    ordering = ('-id',)
+
+    # Colonnes affichées dans la liste des véhicules
+    list_display = (
+        "id",
+        "immatriculation",
+        "type_vehicule",
+        "capacite_kg",
+        "disponible",
+        "entreprise",
+    )
+
+    # Filtres disponibles
+    list_filter = (
+        "type_vehicule",
+        "disponible",
+    )
+
+    # Recherche de véhicules
+    search_fields = (
+        "immatriculation",
+        "type_vehicule",
+        "entreprise__id",
+    )
+
+    # Tri par identifiant décroissant
+    ordering = ("-id",)
+
+    # Nombre de véhicules par page
     list_per_page = 10
-admin.site.register(Vehicule)
+
+    # Organisation du formulaire
+    fieldsets = (
+        (
+            "Identité du véhicule",
+            {
+                "fields": (
+                    "immatriculation",
+                    "type_vehicule",
+                    "capacite_kg",
+                )
+            },
+        ),
+        (
+            "Disponibilité et entreprise",
+            {
+                "fields": (
+                    "disponible",
+                    "entreprise",
+                )
+            },
+        ),
+        (
+            "Dates système",
+            {
+                "fields": (
+                    "created_at",
+                    "updated_at",
+                )
+            },
+        ),
+    )
+
+    # Champs générés automatiquement
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
