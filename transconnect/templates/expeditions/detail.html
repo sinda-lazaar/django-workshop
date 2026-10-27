@@ -1,0 +1,27 @@
+<h1>Détails de l'éxpedition {{expedition.reference}}</h1>
+<ul> 
+    <li>{{expedition.ville_depart}}</li>
+    <li>{{expedition.ville_arrivee}}</li>
+    <li>{{expedition.description}}</li>
+
+</ul>
+<h2>Offres associées</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Prix</th>
+            <th>Transporteur</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for offre in offres %}
+        <tr>
+            <td>{{offre.prix}}</td>
+            <td>{{offre.transporteur.raison_social}}</td>
+            <td>{{offre.vehicule}}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">Aucune offre trouvée</td></tr>
+        {% endfor %}
+    </tbody>
