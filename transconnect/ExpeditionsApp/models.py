@@ -1,7 +1,7 @@
-
-from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
+from django.db import models
+from django.utils import timezone
 
 
 class Expedition(models.Model):
@@ -12,13 +12,14 @@ class Expedition(models.Model):
     )
 
     ville_depart = models.CharField(max_length=100)
+
     ville_arrive = models.CharField(max_length=100)
 
     date_souhaitee = models.DateField()
 
     poids_kg = models.DecimalField(
-        max_digits=300,
-        decimal_places=3,
+        max_digits=10,
+        decimal_places=2,
         validators=[MinValueValidator(0.01)]
     )
 
@@ -47,8 +48,6 @@ class Expedition(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.reference:
-            from django.utils import timezone
-
             prefix = f"EXP-{timezone.now().year % 100:02d}-"
 
             references = Expedition.objects.filter(
@@ -56,9 +55,9 @@ class Expedition(models.Model):
             ).values_list("reference", flat=True)
 
             numeros = [
-                int(ref[-5:])
-                for ref in references
-                if ref[-5:].isdigit()
+                int(reference[-5:])
+                for reference in references
+                if reference[-5:].isdigit()
             ]
 
             prochain = max(numeros, default=0) + 1
