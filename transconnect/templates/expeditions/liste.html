@@ -1,14 +1,39 @@
 
+{% extends 'base.html' %}
+
+{% block title %}
+Liste des expéditions
+{% endblock %}
+
+{% block contenu %}
+
 <h1>Liste des expéditions publiées</h1>
 
 <ul>
-    {% for e in expeditions %}
+
+    {% for expedition in expeditions %}
+
         <li>
-            <a href="{% url 'expeditions:details_expedition' e.reference %}">
-                {{ e.reference }}
+
+            <a href="{% url 'expeditions:detail' expedition.reference %}">
+                {{ expedition.reference }}
             </a>
+
+            -
+            {{ expedition.ville_depart }}
+            →
+            {{ expedition.ville_arrive }}
+
         </li>
+
     {% empty %}
-        <li>Aucune expédition trouvée</li>
+
+        <li>
+            Aucune expédition trouvée.
+        </li>
+
     {% endfor %}
+
 </ul>
+
+{% endblock %}
