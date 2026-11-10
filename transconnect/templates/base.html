@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        TransConnect - {% block title %}{% endblock %}
+    </title>
+</head>
+
+<body>
+
+    <header>
+        <h1>
+            <a href="{% url 'homepage' %}">
+                TransConnect
+            </a>
+        </h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'homepage' %}">
+            Accueil
+        </a>
+
+        <a href="{% url 'expeditions:liste' %}">
+            Expéditions
+        </a>
+
+        <a href="{% url 'vehicules:list' %}">
+            Véhicules
+        </a>
+    </nav>
+
+    <main>
+        {% block contenu %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>TransConnect 2026</p>
+    </footer>
+
+</body>
+
+</html>

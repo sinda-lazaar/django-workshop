@@ -1,0 +1,59 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Liste des véhicules
+{% endblock %}
+
+{% block contenu %}
+
+<h1>Liste des véhicules</h1>
+
+<a href="{% url 'vehicules:create' %}">
+    Ajouter un véhicule
+</a>
+
+<ul>
+
+    {% for vehicule in vehicules %}
+
+        <li>
+
+            <a href="{% url 'vehicules:update' vehicule.pk %}">
+                {{ vehicule.immatriculation }}
+            </a>
+
+            <br>
+
+            Type :
+            {{ vehicule.get_type_vehicule_display }}
+
+            <br>
+
+            Capacité :
+            {{ vehicule.capacite_kg }} kg
+
+            <br>
+
+            Entreprise :
+            {{ vehicule.entreprise.raison_social }}
+
+            <br>
+
+            <a href="{% url 'vehicules:delete' vehicule.pk %}">
+                Supprimer
+            </a>
+
+        </li>
+
+    {% empty %}
+
+        <li>
+            Aucun véhicule trouvé.
+        </li>
+
+    {% endfor %}
+
+</ul>
+
+{% endblock %}
