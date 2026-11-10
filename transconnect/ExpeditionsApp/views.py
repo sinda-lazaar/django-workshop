@@ -1,6 +1,5 @@
+from django.views.generic import DetailView, ListView
 
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
 from .models import Expedition
 
 
@@ -18,23 +17,21 @@ class ListeViewExpedition(ListView):
         )
 
 
-def detail_expedition(request, reference):
-    expedition = get_object_or_404(
-        Expedition,
-        reference=reference
-    )
+class ExpeditionDetailView(DetailView):
+    model = Expedition
+    template_name = "expeditions/detail.html"
+    context_object_name = "expedition"
 
-    offres = (
-        expedition.offre
-        .select_related("transporteur", "vehicule")
-        .order_by("-date_proposition")
-    )
+    slug_field = "reference"
+    slug_url_kwarg = "reference"
 
-    return render(
-        request,
-        "expeditions/detail.html",
-        {
-            "expedition": expedition,
-            "offres": offres,
-        },
-    )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["offres"] = (
+            self.object.offres
+            .select_related("transporteur", "vehicule")
+            .order_by("-date_proposition")
+        )
+
+        return context
