@@ -1,27 +1,104 @@
-<h1>Détails de l'éxpedition {{expedition.reference}}</h1>
-<ul> 
-    <li>{{expedition.ville_depart}}</li>
-    <li>{{expedition.ville_arrivee}}</li>
-    <li>{{expedition.description}}</li>
+
+{% extends 'base.html' %}
+
+{% block title %}
+Détail de l'expédition
+{% endblock %}
+
+{% block contenu %}
+
+<h1>
+    Détails de l'expédition {{ expedition.reference }}
+</h1>
+
+<ul>
+
+    <li>
+        Ville de départ :
+        {{ expedition.ville_depart }}
+    </li>
+
+    <li>
+        Ville d'arrivée :
+        {{ expedition.ville_arrive }}
+    </li>
+
+    <li>
+        Description :
+        {{ expedition.description }}
+    </li>
+
+    <li>
+        Poids :
+        {{ expedition.poids_kg }} kg
+    </li>
+
+    <li>
+        Date souhaitée :
+        {{ expedition.date_souhaitee }}
+    </li>
+
+    <li>
+        Statut :
+        {{ expedition.get_statut_display }}
+    </li>
 
 </ul>
+
 <h2>Offres associées</h2>
-<table>
+
+<table border="1">
+
     <thead>
         <tr>
             <th>Prix</th>
             <th>Transporteur</th>
-            <th></th>
+            <th>Véhicule</th>
+            <th>Délai</th>
+            <th>Statut</th>
         </tr>
     </thead>
+
     <tbody>
+
         {% for offre in offres %}
-        <tr>
-            <td>{{offre.prix}}</td>
-            <td>{{offre.transporteur.raison_social}}</td>
-            <td>{{offre.vehicule}}</td>
-        </tr>
+
+            <tr>
+
+                <td>
+                    {{ offre.prix }} DT
+                </td>
+
+                <td>
+                    {{ offre.transporteur.raison_social }}
+                </td>
+
+                <td>
+                    {{ offre.vehicule.immatriculation }}
+                </td>
+
+                <td>
+                    {{ offre.delai_jours }} jours
+                </td>
+
+                <td>
+                    {{ offre.get_statut_display }}
+                </td>
+
+            </tr>
+
         {% empty %}
-        <tr><td colspan="3">Aucune offre trouvée</td></tr>
+
+            <tr>
+                <td colspan="5">
+                    Aucune offre trouvée.
+                </td>
+            </tr>
+
         {% endfor %}
+
     </tbody>
+
+</table>
+
+{% endblock %}
