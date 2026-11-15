@@ -1,0 +1,108 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Offres{% endblock %}
+{% block breadcrumb %}Offres{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div>
+        <div class="page-label">PROPOSITIONS COMMERCIALES</div>
+        <h1>Gestion des offres</h1>
+        <p>Consultez les offres proposées par les transporteurs.</p>
+    </div>
+
+    <a href="{% url 'offres:create' %}" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Ajouter une offre
+    </a>
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <h3><i class="fa-solid fa-file-invoice-dollar"></i> Toutes les offres</h3>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Transporteur</th>
+                    <th>Expédition</th>
+                    <th>Véhicule</th>
+                    <th>Prix</th>
+                    <th>Délai</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for offre in offres %}
+                <tr>
+                    <td class="table-primary">#{{ offre.pk }}</td>
+
+                    <td>{{ offre.transporteur.raison_social }}</td>
+
+                    <td>{{ offre.expedition.reference }}</td>
+
+                    <td>{{ offre.vehicule.immatriculation }}</td>
+
+                    <td class="table-primary">{{ offre.prix }} DT</td>
+
+                    <td>{{ offre.delai_jours }} jours</td>
+
+                    <td>
+                        {% if offre.statut == 'acceptee' %}
+                        <span class="badge badge-green">{{ offre.get_statut_display }}</span>
+
+                        {% elif offre.statut == 'refusee' %}
+                        <span class="badge badge-red">{{ offre.get_statut_display }}</span>
+
+                        {% elif offre.statut == 'retiree' %}
+                        <span class="badge badge-orange">{{ offre.get_statut_display }}</span>
+
+                        {% else %}
+                        <span class="badge badge-blue">{{ offre.get_statut_display }}</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <div class="actions">
+
+                            <a href="{% url 'offres:detail' offre.pk %}"
+                               class="btn btn-view btn-sm">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+
+                            <a href="{% url 'offres:update' offre.pk %}"
+                               class="btn btn-edit btn-sm">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <a href="{% url 'offres:delete' offre.pk %}"
+                               class="btn btn-delete btn-sm">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="empty">
+                        Aucune offre enregistrée.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

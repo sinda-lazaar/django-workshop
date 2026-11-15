@@ -1,0 +1,93 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Entreprises{% endblock %}
+{% block breadcrumb %}Entreprises{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div>
+        <div class="page-label">ANNUAIRE</div>
+        <h1>Gestion des entreprises</h1>
+        <p>Consultez et gérez vos entreprises partenaires.</p>
+    </div>
+
+    <a href="{% url 'entreprises:create' %}" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i>
+        Ajouter une entreprise
+    </a>
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <h3><i class="fa-solid fa-building"></i> Liste des entreprises</h3>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Raison sociale</th>
+                    <th>Matricule fiscal</th>
+                    <th>Type</th>
+                    <th>Gérant</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for entreprise in entreprises %}
+                <tr>
+                    <td class="table-primary">
+                        {{ entreprise.raison_social }}
+                    </td>
+
+                    <td>{{ entreprise.matricule_fiscal }}</td>
+
+                    <td>
+                        {% if entreprise.type_entreprise == 'chargeur' %}
+                        <span class="badge badge-blue">Chargeur</span>
+                        {% else %}
+                        <span class="badge badge-green">Transporteur</span>
+                        {% endif %}
+                    </td>
+
+                    <td>{{ entreprise.gerant }}</td>
+
+                    <td>
+                        <div class="actions">
+                            <a href="{% url 'entreprises:detail' entreprise.pk %}"
+                               class="btn btn-view btn-sm" title="Détails">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+
+                            <a href="{% url 'entreprises:update' entreprise.pk %}"
+                               class="btn btn-edit btn-sm" title="Modifier">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <a href="{% url 'entreprises:delete' entreprise.pk %}"
+                               class="btn btn-delete btn-sm" title="Supprimer">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="empty">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <br><br>
+                        Aucune entreprise enregistrée.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

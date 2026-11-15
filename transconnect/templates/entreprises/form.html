@@ -1,0 +1,72 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Formulaire entreprise{% endblock %}
+{% block breadcrumb %}Entreprises / Formulaire{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div>
+        <div class="page-label">ENTREPRISES</div>
+        <h1>Informations de l'entreprise</h1>
+        <p>Remplissez les informations demandées.</p>
+    </div>
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <h3>
+            <i class="fa-solid fa-building"></i>
+            {% if object %}Modifier une entreprise{% else %}Nouvelle entreprise{% endif %}
+        </h3>
+    </div>
+
+    <div class="card-body">
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                {% for field in form %}
+                <p>
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                    <small>{{ field.help_text }}</small>
+                    {% endif %}
+
+                    {{ field.errors }}
+                </p>
+                {% endfor %}
+
+            </div>
+
+            {{ form.non_field_errors }}
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i>
+                    Enregistrer
+                </button>
+
+                <a href="{% url 'entreprises:list' %}"
+                   class="btn btn-secondary">
+                    Annuler
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

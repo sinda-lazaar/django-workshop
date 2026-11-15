@@ -1,0 +1,127 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block breadcrumb %}Tableau de bord{% endblock %}
+
+{% block contenu %}
+
+<section class="hero">
+
+    <div class="hero-label">
+        BIENVENUE SUR TRANSCONNECT
+    </div>
+
+    <h1>
+        Gérez votre activité transport avec simplicité.
+    </h1>
+
+    <p>
+        Une plateforme centralisée pour gérer vos expéditions,
+        vos véhicules, vos entreprises et vos offres de transport.
+    </p>
+
+    <a href="{% url 'expeditions:liste' %}" class="btn">
+        <i class="fa-solid fa-arrow-right"></i>
+        Consulter les expéditions
+    </a>
+
+</section>
+
+<div class="page-header">
+
+    <div>
+        <div class="page-label">GESTION</div>
+        <h1>Vue d'ensemble</h1>
+        <p>Accédez rapidement aux différents modules.</p>
+    </div>
+
+</div>
+
+<div class="module-grid">
+
+    <div class="module-card">
+
+        <div class="module-icon">
+            <i class="fa-solid fa-box"></i>
+        </div>
+
+        <h3>Expéditions</h3>
+
+        <p>
+            Créez et suivez les demandes d'expédition.
+        </p>
+
+        <a href="{% url 'expeditions:liste' %}">
+            Accéder au module →
+        </a>
+
+    </div>
+
+    <div class="module-card">
+
+        <div class="module-icon"
+             style="background:#e5f8f2;color:#16a36a;">
+
+            <i class="fa-solid fa-truck"></i>
+
+        </div>
+
+        <h3>Véhicules</h3>
+
+        <p>
+            Gérez votre flotte et la disponibilité des véhicules.
+        </p>
+
+        <a href="{% url 'vehicules:list' %}">
+            Accéder au module →
+        </a>
+
+    </div>
+
+    <div class="module-card">
+
+        <div class="module-icon"
+             style="background:#fff4e5;color:#e99b32;">
+
+            <i class="fa-solid fa-building"></i>
+
+        </div>
+
+        <h3>Entreprises</h3>
+
+        <p>
+            Consultez les entreprises et leurs informations.
+        </p>
+
+        <a href="{% url 'entreprises:list' %}">
+            Accéder au module →
+        </a>
+
+    </div>
+
+    <div class="module-card">
+
+        <div class="module-icon"
+             style="background:#f1eaff;color:#8856cf;">
+
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+
+        </div>
+
+        <h3>Offres</h3>
+
+        <p>
+            Consultez les offres et les propositions de transport.
+        </p>
+
+        <a href="{% url 'offres:list' %}">
+            Accéder au module →
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

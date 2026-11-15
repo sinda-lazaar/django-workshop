@@ -1,0 +1,47 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Supprimer entreprise{% endblock %}
+{% block breadcrumb %}Entreprises / Suppression{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div>
+        <div class="page-label">CONFIRMATION</div>
+        <h1>Supprimer une entreprise</h1>
+        <p>Cette action est définitive.</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Voulez-vous vraiment supprimer
+            <strong>{{ entreprise.raison_social }}</strong> ?
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-delete">
+                    <i class="fa-solid fa-trash"></i>
+                    Confirmer la suppression
+                </button>
+
+                <a href="{% url 'entreprises:list' %}"
+                   class="btn btn-secondary">
+                    Annuler
+                </a>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

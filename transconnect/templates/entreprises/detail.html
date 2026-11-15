@@ -1,0 +1,77 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Détails entreprise{% endblock %}
+{% block breadcrumb %}Entreprises / Détails{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div>
+        <div class="page-label">FICHE ENTREPRISE</div>
+        <h1>{{ entreprise.raison_social }}</h1>
+        <p>Informations détaillées de l'entreprise.</p>
+    </div>
+
+    <a href="{% url 'entreprises:list' %}" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Retour
+    </a>
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <h3>Informations générales</h3>
+
+        <a href="{% url 'entreprises:update' entreprise.pk %}"
+           class="btn btn-edit btn-sm">
+            <i class="fa-solid fa-pen"></i> Modifier
+        </a>
+    </div>
+
+    <div class="card-body">
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+                <div class="detail-label">Raison sociale</div>
+                <div class="detail-value">{{ entreprise.raison_social }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Matricule fiscal</div>
+                <div class="detail-value">{{ entreprise.matricule_fiscal }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Type d'entreprise</div>
+                <div class="detail-value">
+                    {{ entreprise.get_type_entreprise_display }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Gérant</div>
+                <div class="detail-value">{{ entreprise.gerant }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Adresse</div>
+                <div class="detail-value">{{ entreprise.adresse }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Date de création</div>
+                <div class="detail-value">{{ entreprise.created_at }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Dernière modification</div>
+                <div class="detail-value">{{ entreprise.updated_at }}</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Détails offre{% endblock %}
+{% block breadcrumb %}Offres / Détails{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div>
+        <div class="page-label">FICHE OFFRE</div>
+        <h1>Offre #{{ offre.pk }}</h1>
+        <p>Informations détaillées de la proposition.</p>
+    </div>
+
+    <a href="{% url 'offres:list' %}" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Retour
+    </a>
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <h3>Informations générales</h3>
+
+        <a href="{% url 'offres:update' offre.pk %}"
+           class="btn btn-edit btn-sm">
+            <i class="fa-solid fa-pen"></i> Modifier
+        </a>
+    </div>
+
+    <div class="card-body">
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+                <div class="detail-label">Identifiant</div>
+                <div class="detail-value">#{{ offre.pk }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Prix proposé</div>
+                <div class="detail-value">{{ offre.prix }} DT</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Transporteur</div>
+                <div class="detail-value">
+                    {{ offre.transporteur.raison_social }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Expédition</div>
+                <div class="detail-value">
+                    {{ offre.expedition.reference }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Ville de départ</div>
+                <div class="detail-value">
+                    {{ offre.expedition.ville_depart }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Ville d'arrivée</div>
+                <div class="detail-value">
+                    {{ offre.expedition.ville_arrive }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Véhicule</div>
+                <div class="detail-value">
+                    {{ offre.vehicule.immatriculation }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Délai</div>
+                <div class="detail-value">
+                    {{ offre.delai_jours }} jours
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Date de proposition</div>
+                <div class="detail-value">
+                    {{ offre.date_proposition }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Statut</div>
+                <div class="detail-value">
+                    {{ offre.get_statut_display }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Date de création</div>
+                <div class="detail-value">{{ offre.created_at }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Dernière modification</div>
+                <div class="detail-value">{{ offre.updated_at }}</div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
