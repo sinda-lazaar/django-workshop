@@ -1,39 +1,123 @@
 
 {% extends 'base.html' %}
 
-{% block title %}
-Liste des expéditions
-{% endblock %}
+{% block title %}Expéditions{% endblock %}
+{% block breadcrumb %}Expéditions{% endblock %}
 
 {% block contenu %}
 
-<h1>Liste des expéditions publiées</h1>
+<div class="page-header">
+    <div>
+        <div class="page-label">GESTION LOGISTIQUE</div>
+        <h1>Gestion des expéditions</h1>
+        <p>Suivez les demandes et leur état d'avancement.</p>
+    </div>
 
-<ul>
+    <a href="{% url 'expeditions:create' %}" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i>
+        Nouvelle expédition
+    </a>
+</div>
 
-    {% for expedition in expeditions %}
+<div class="card">
 
-        <li>
+    <div class="card-header">
+        <h3><i class="fa-solid fa-box"></i> Toutes les expéditions</h3>
+    </div>
 
-            <a href="{% url 'expeditions:detail' expedition.reference %}">
-                {{ expedition.reference }}
-            </a>
+    <div class="table-container">
+        <table>
 
-            -
-            {{ expedition.ville_depart }}
-            →
-            {{ expedition.ville_arrive }}
+            <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Départ</th>
+                    <th>Arrivée</th>
+                    <th>Date souhaitée</th>
+                    <th>Poids</th>
+                    <th>Statut</th>
+                    <th>Entreprise</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        </li>
+            <tbody>
 
-    {% empty %}
+                {% for expedition in expeditions %}
+                <tr>
 
-        <li>
-            Aucune expédition trouvée.
-        </li>
+                    <td class="table-primary">
+                        {{ expedition.reference }}
+                    </td>
 
-    {% endfor %}
+                    <td>{{ expedition.ville_depart }}</td>
 
-</ul>
+                    <td>{{ expedition.ville_arrive }}</td>
+
+                    <td>{{ expedition.date_souhaitee }}</td>
+
+                    <td>{{ expedition.poids_kg }} kg</td>
+
+                    <td>
+                        {% if expedition.statut == 'livree' %}
+                        <span class="badge badge-green">
+                            {{ expedition.get_statut_display }}
+                        </span>
+
+                        {% elif expedition.statut == 'annulee' %}
+                        <span class="badge badge-red">
+                            {{ expedition.get_statut_display }}
+                        </span>
+
+                        {% elif expedition.statut == 'en_cours' %}
+                        <span class="badge badge-orange">
+                            {{ expedition.get_statut_display }}
+                        </span>
+
+                        {% else %}
+                        <span class="badge badge-blue">
+                            {{ expedition.get_statut_display }}
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td>{{ expedition.entreprise.raison_social }}</td>
+
+                    <td>
+                        <div class="actions">
+
+                            <a href="{% url 'expeditions:detail' expedition.reference %}"
+                               class="btn btn-view btn-sm">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+
+                            <a href="{% url 'expeditions:update' expedition.pk %}"
+                               class="btn btn-edit btn-sm">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <a href="{% url 'expeditions:delete' expedition.pk %}"
+                               class="btn btn-delete btn-sm">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="empty">
+                        Aucune expédition enregistrée.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
 
 {% endblock %}
