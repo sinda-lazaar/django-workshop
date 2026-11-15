@@ -1,0 +1,92 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Détails véhicule{% endblock %}
+{% block breadcrumb %}Véhicules / Détails{% endblock %}
+
+{% block contenu %}
+
+<div class="page-header">
+    <div>
+        <div class="page-label">FICHE VÉHICULE</div>
+        <h1>{{ vehicule.immatriculation }}</h1>
+        <p>Informations détaillées du véhicule.</p>
+    </div>
+
+    <a href="{% url 'vehicules:list' %}" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Retour
+    </a>
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <h3>Informations du véhicule</h3>
+
+        <a href="{% url 'vehicules:update' vehicule.pk %}"
+           class="btn btn-edit btn-sm">
+            <i class="fa-solid fa-pen"></i> Modifier
+        </a>
+    </div>
+
+    <div class="card-body">
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+                <div class="detail-label">Immatriculation</div>
+                <div class="detail-value">{{ vehicule.immatriculation }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Type de véhicule</div>
+                <div class="detail-value">
+                    {{ vehicule.get_type_vehicule_display }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Capacité</div>
+                <div class="detail-value">{{ vehicule.capacite_kg }} kg</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Disponibilité</div>
+                <div class="detail-value">
+                    {% if vehicule.disponible %}
+                    <span class="badge badge-green">Disponible</span>
+                    {% else %}
+                    <span class="badge badge-red">Indisponible</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Entreprise</div>
+                <div class="detail-value">
+                    {{ vehicule.entreprise.raison_social }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Matricule fiscal</div>
+                <div class="detail-value">
+                    {{ vehicule.entreprise.matricule_fiscal }}
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Date de création</div>
+                <div class="detail-value">{{ vehicule.created_at }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Dernière modification</div>
+                <div class="detail-value">{{ vehicule.updated_at }}</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
