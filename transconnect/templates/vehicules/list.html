@@ -1,59 +1,95 @@
 
 {% extends 'base.html' %}
 
-{% block title %}
-Liste des véhicules
-{% endblock %}
+{% block title %}Véhicules{% endblock %}
+{% block breadcrumb %}Véhicules{% endblock %}
 
 {% block contenu %}
 
-<h1>Liste des véhicules</h1>
+<div class="page-header">
+    <div>
+        <div class="page-label">FLOTTE AUTOMOBILE</div>
+        <h1>Gestion des véhicules</h1>
+        <p>Gérez les véhicules et leur disponibilité.</p>
+    </div>
 
-<a href="{% url 'vehicules:create' %}">
-    Ajouter un véhicule
-</a>
+    <a href="{% url 'vehicules:create' %}" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Ajouter un véhicule
+    </a>
+</div>
 
-<ul>
+<div class="card">
 
-    {% for vehicule in vehicules %}
+    <div class="card-header">
+        <h3><i class="fa-solid fa-truck"></i> Parc de véhicules</h3>
+    </div>
 
-        <li>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Immatriculation</th>
+                    <th>Type</th>
+                    <th>Capacité</th>
+                    <th>Entreprise</th>
+                    <th>Disponibilité</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-            <a href="{% url 'vehicules:update' vehicule.pk %}">
-                {{ vehicule.immatriculation }}
-            </a>
+            <tbody>
+                {% for vehicule in vehicules %}
+                <tr>
+                    <td class="table-primary">
+                        {{ vehicule.immatriculation }}
+                    </td>
 
-            <br>
+                    <td>{{ vehicule.get_type_vehicule_display }}</td>
 
-            Type :
-            {{ vehicule.get_type_vehicule_display }}
+                    <td>{{ vehicule.capacite_kg }} kg</td>
 
-            <br>
+                    <td>{{ vehicule.entreprise.raison_social }}</td>
 
-            Capacité :
-            {{ vehicule.capacite_kg }} kg
+                    <td>
+                        {% if vehicule.disponible %}
+                        <span class="badge badge-green">Disponible</span>
+                        {% else %}
+                        <span class="badge badge-red">Indisponible</span>
+                        {% endif %}
+                    </td>
 
-            <br>
+                    <td>
+                        <div class="actions">
 
-            Entreprise :
-            {{ vehicule.entreprise.raison_social }}
+                            <a href="{% url 'vehicules:detail' vehicule.pk %}"
+                               class="btn btn-view btn-sm">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
 
-            <br>
+                            <a href="{% url 'vehicules:update' vehicule.pk %}"
+                               class="btn btn-edit btn-sm">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
 
-            <a href="{% url 'vehicules:delete' vehicule.pk %}">
-                Supprimer
-            </a>
+                            <a href="{% url 'vehicules:delete' vehicule.pk %}"
+                               class="btn btn-delete btn-sm">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
 
-        </li>
+                        </div>
+                    </td>
+                </tr>
 
-    {% empty %}
-
-        <li>
-            Aucun véhicule trouvé.
-        </li>
-
-    {% endfor %}
-
-</ul>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="empty">
+                        Aucun véhicule enregistré.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% endblock %}
