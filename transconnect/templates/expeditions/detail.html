@@ -1,104 +1,143 @@
 
 {% extends 'base.html' %}
 
-{% block title %}
-Détail de l'expédition
-{% endblock %}
+{% block title %}Détails expédition{% endblock %}
+{% block breadcrumb %}Expéditions / Détails{% endblock %}
 
 {% block contenu %}
 
-<h1>
-    Détails de l'expédition {{ expedition.reference }}
-</h1>
+<div class="page-header">
+    <div>
+        <div class="page-label">SUIVI LOGISTIQUE</div>
+        <h1>Expédition {{ expedition.reference }}</h1>
+        <p>Informations et offres associées à cette expédition.</p>
+    </div>
 
-<ul>
+    <a href="{% url 'expeditions:liste' %}"
+       class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Retour
+    </a>
+</div>
 
-    <li>
-        Ville de départ :
-        {{ expedition.ville_depart }}
-    </li>
+<div class="card">
 
-    <li>
-        Ville d'arrivée :
-        {{ expedition.ville_arrive }}
-    </li>
+    <div class="card-header">
+        <h3>Informations de l'expédition</h3>
 
-    <li>
-        Description :
-        {{ expedition.description }}
-    </li>
+        <a href="{% url 'expeditions:update' expedition.pk %}"
+           class="btn btn-edit btn-sm">
+            <i class="fa-solid fa-pen"></i> Modifier
+        </a>
+    </div>
 
-    <li>
-        Poids :
-        {{ expedition.poids_kg }} kg
-    </li>
+    <div class="card-body">
 
-    <li>
-        Date souhaitée :
-        {{ expedition.date_souhaitee }}
-    </li>
+        <div class="detail-grid">
 
-    <li>
-        Statut :
-        {{ expedition.get_statut_display }}
-    </li>
+            <div class="detail-item">
+                <div class="detail-label">Référence</div>
+                <div class="detail-value">{{ expedition.reference }}</div>
+            </div>
 
-</ul>
+            <div class="detail-item">
+                <div class="detail-label">Entreprise</div>
+                <div class="detail-value">
+                    {{ expedition.entreprise.raison_social }}
+                </div>
+            </div>
 
-<h2>Offres associées</h2>
+            <div class="detail-item">
+                <div class="detail-label">Ville de départ</div>
+                <div class="detail-value">{{ expedition.ville_depart }}</div>
+            </div>
 
-<table border="1">
+            <div class="detail-item">
+                <div class="detail-label">Ville d'arrivée</div>
+                <div class="detail-value">{{ expedition.ville_arrive }}</div>
+            </div>
 
-    <thead>
-        <tr>
-            <th>Prix</th>
-            <th>Transporteur</th>
-            <th>Véhicule</th>
-            <th>Délai</th>
-            <th>Statut</th>
-        </tr>
-    </thead>
+            <div class="detail-item">
+                <div class="detail-label">Date souhaitée</div>
+                <div class="detail-value">{{ expedition.date_souhaitee }}</div>
+            </div>
 
-    <tbody>
+            <div class="detail-item">
+                <div class="detail-label">Poids</div>
+                <div class="detail-value">{{ expedition.poids_kg }} kg</div>
+            </div>
 
-        {% for offre in offres %}
+            <div class="detail-item">
+                <div class="detail-label">Statut</div>
+                <div class="detail-value">
+                    {{ expedition.get_statut_display }}
+                </div>
+            </div>
 
-            <tr>
+            <div class="detail-item">
+                <div class="detail-label">Description</div>
+                <div class="detail-value">{{ expedition.description }}</div>
+            </div>
 
-                <td>
-                    {{ offre.prix }} DT
-                </td>
+        </div>
 
-                <td>
-                    {{ offre.transporteur.raison_social }}
-                </td>
+    </div>
+</div>
 
-                <td>
-                    {{ offre.vehicule.immatriculation }}
-                </td>
+<div class="card">
 
-                <td>
-                    {{ offre.delai_jours }} jours
-                </td>
+    <div class="card-header">
+        <h3>
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            Offres associées
+        </h3>
+    </div>
 
-                <td>
-                    {{ offre.get_statut_display }}
-                </td>
+    <div class="table-container">
 
-            </tr>
+        <table>
+            <thead>
+                <tr>
+                    <th>Transporteur</th>
+                    <th>Véhicule</th>
+                    <th>Prix</th>
+                    <th>Délai</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
 
-        {% empty %}
+            <tbody>
 
-            <tr>
-                <td colspan="5">
-                    Aucune offre trouvée.
-                </td>
-            </tr>
+                {% for offre in offres %}
+                <tr>
 
-        {% endfor %}
+                    <td>{{ offre.transporteur.raison_social }}</td>
 
-    </tbody>
+                    <td>{{ offre.vehicule.immatriculation }}</td>
 
-</table>
+                    <td class="table-primary">{{ offre.prix }} DT</td>
+
+                    <td>{{ offre.delai_jours }} jours</td>
+
+                    <td>
+                        <span class="badge badge-blue">
+                            {{ offre.get_statut_display }}
+                        </span>
+                    </td>
+
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="empty">
+                        Aucune offre associée à cette expédition.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
 
 {% endblock %}
