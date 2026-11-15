@@ -1,9 +1,11 @@
+
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
     ListView,
     UpdateView,
+    DetailView,
 )
 
 from .forms import VehiculeForm
@@ -14,6 +16,12 @@ class VehiculeListView(ListView):
     model = Vehicule
     template_name = "vehicules/list.html"
     context_object_name = "vehicules"
+
+
+class VehiculeDetailView(DetailView):
+    model = Vehicule
+    template_name = "vehicules/detail.html"
+    context_object_name = "vehicule"
 
 
 class VehiculeCreateView(CreateView):
