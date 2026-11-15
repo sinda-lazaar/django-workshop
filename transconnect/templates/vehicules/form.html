@@ -1,24 +1,67 @@
 
 {% extends 'base.html' %}
 
-{% block title %}
-Véhicule
-{% endblock %}
+{% block title %}Formulaire véhicule{% endblock %}
+{% block breadcrumb %}Véhicules / Formulaire{% endblock %}
 
 {% block contenu %}
 
-<h1>Formulaire Véhicule</h1>
+<div class="page-header">
+    <div>
+        <div class="page-label">FLOTTE AUTOMOBILE</div>
+        <h1>Informations du véhicule</h1>
+        <p>Ajoutez ou modifiez un véhicule.</p>
+    </div>
+</div>
 
-<form method="post">
+<div class="card">
 
-    {% csrf_token %}
+    <div class="card-header">
+        <h3>
+            {% if object %}Modifier le véhicule{% else %}Nouveau véhicule{% endif %}
+        </h3>
+    </div>
 
-    {{ form.as_p }}
+    <div class="card-body">
 
-    <button type="submit">
-        Enregistrer
-    </button>
+        <form method="post">
+            {% csrf_token %}
 
-</form>
+            <div class="form-grid">
+
+                {% for field in form %}
+                <p>
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {{ field.errors }}
+                </p>
+                {% endfor %}
+
+            </div>
+
+            {{ form.non_field_errors }}
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i>
+                    Enregistrer
+                </button>
+
+                <a href="{% url 'vehicules:list' %}"
+                   class="btn btn-secondary">
+                    Annuler
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
 
 {% endblock %}
